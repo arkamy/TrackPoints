@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TrackPoints</string>
+    <string name="lost_by_my_opponent">Perdu\npar\nmon adv.</string>
+    <string name="lost_by_myself">Perdu\npar\nmoi</string>
+    <string name="win_by_my_opponent">Gagné\npar\nmon adv.</string>
+    <string name="win_by_myself">Gagné\npar\nmoi</string>
+</resources>

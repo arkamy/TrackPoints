@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TrackPoints</string>
+    <string name="win_by_myself">Win\nby\nmyself</string>
+    <string name="win_by_my_opponent">Win\nby\nmy opp.</string>
+    <string name="lost_by_my_opponent">Lost\nby\nmy opp.</string>
+    <string name="lost_by_myself">Lost\nby\nmyself</string>
+</resources>
