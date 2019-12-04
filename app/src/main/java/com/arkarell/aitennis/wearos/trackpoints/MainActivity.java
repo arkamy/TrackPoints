@@ -22,8 +22,11 @@ public class MainActivity extends WearableActivity {
     private TextView mCountWinByMyOpponent;
     private TextView mCountLostByMyOpponent;
     private TextView mCountLostByMyself;
-    private TextView mAggressiveMargin;
+    private TextView mMyAggressiveMargin;
+    private TextView mMyOpponentAggressiveMargin;
     private TextView mCountPoints;
+    private TextView mElapsedTime;
+    private TextView mScore;
 
     private RelativeLayout mPercentWinByMyselfLayout;
     private RelativeLayout mPercentWinLostByMyOpponentLayout;
@@ -39,7 +42,8 @@ public class MainActivity extends WearableActivity {
     private int countWinByMyOpponent;
     private int countLostByMyOpponent;
     private int countLostByMyself;
-    private int aggressiveMargin;
+    private int myAggressiveMargin;
+    private int myOpponentAggressiveMargin;
     private int countPoints;
 
     private long startTimeStamp;
@@ -59,7 +63,7 @@ public class MainActivity extends WearableActivity {
         countWinByMyOpponent = 0;
         countLostByMyOpponent = 0;
         countLostByMyself = 0;
-        aggressiveMargin = 0;
+        myAggressiveMargin = 0;
         countPoints = 0;
 
         // Load UI elements
@@ -72,8 +76,11 @@ public class MainActivity extends WearableActivity {
         mCountWinByMyOpponent = (TextView) findViewById(R.id.count_win_by_my_opponent);
         mCountLostByMyOpponent = (TextView) findViewById(R.id.count_lost_by_my_opponent);
         mCountLostByMyself = (TextView) findViewById(R.id.count_lost_by_myself);
-        mAggressiveMargin = (TextView) findViewById(R.id.aggressive_margin);
+        mMyAggressiveMargin = (TextView) findViewById(R.id.my_aggressive_margin);
+        mMyOpponentAggressiveMargin = (TextView) findViewById(R.id.my_opponent_aggressive_margin);
         mCountPoints = (TextView) findViewById(R.id.count_points);
+        mElapsedTime = (TextView) findViewById(R.id.elapsed_time);
+        mScore = (TextView) findViewById(R.id.score);
 
         mPercentWinByMyselfLayout = (RelativeLayout) findViewById(R.id.percent_win_by_myself_layout);
         mPercentWinLostByMyOpponentLayout = (RelativeLayout) findViewById(R.id.percent_winlost_by_my_opponent_layout);
@@ -97,7 +104,7 @@ public class MainActivity extends WearableActivity {
             public void onClick(View v) {
                 countWinByMyself += 1;
                 mCountWinByMyself.setText(String.valueOf(countWinByMyself));
-                updateAggressiveMargin(1);
+                updateMyAggressiveMargin(1);
                 addOnePoint();
             }
         });
@@ -105,6 +112,7 @@ public class MainActivity extends WearableActivity {
             public void onClick(View v) {
                 countWinByMyOpponent += 1;
                 mCountWinByMyOpponent.setText(String.valueOf(countWinByMyOpponent));
+                updateMyOpponentAggressiveMargin(1);
                 addOnePoint();
             }
         });
@@ -112,6 +120,7 @@ public class MainActivity extends WearableActivity {
             public void onClick(View v) {
                 countLostByMyOpponent += 1;
                 mCountLostByMyOpponent.setText(String.valueOf(countLostByMyOpponent));
+                updateMyOpponentAggressiveMargin(-1);
                 addOnePoint();
             }
         });
@@ -119,7 +128,7 @@ public class MainActivity extends WearableActivity {
             public void onClick(View v) {
                 countLostByMyself += 1;
                 mCountLostByMyself.setText(String.valueOf(countLostByMyself));
-                updateAggressiveMargin(-1);
+                updateMyAggressiveMargin(-1);
                 addOnePoint();
             }
         });
@@ -177,8 +186,10 @@ public class MainActivity extends WearableActivity {
 
         vibrator.vibrate(50);
 
-        // Set nb points and elapsed time since the beginning of track
-        setNbPointsAndElapsedTime();
+        // Set nb points, score and elapsed time since the beginning of track
+        setCountPoints();;
+        setElapsedTime();
+        setScore();
 
         // set percent bar
         float fwinByMyselfPercent = (countWinByMyself * 100) / countPoints;
@@ -214,26 +225,42 @@ public class MainActivity extends WearableActivity {
         }
     }
 
-    private void setNbPointsAndElapsedTime() {
+    private void setCountPoints() {
         String sCountPoints = String.valueOf(countPoints);
         if (countPoints == 1)
             sCountPoints += " pt";
         else
             sCountPoints += " pts";
-        int minutes = round((System.currentTimeMillis() - startTimeStamp) / 60000);
-        String sMinutes = String.valueOf(minutes) + " min.";
-        mCountPoints.setText(sCountPoints + " - " + sMinutes);
+        mCountPoints.setText(sCountPoints);
     }
 
-    private void updateAggressiveMargin(int delta) {
-        aggressiveMargin += delta;
-        mAggressiveMargin.setText(String.valueOf(aggressiveMargin));
+    private void setElapsedTime() {
+        int elapsedTime = round((System.currentTimeMillis() - startTimeStamp) / 60000);
+        String sElapsedTime = String.valueOf(elapsedTime) + " min.";
+        mElapsedTime.setText(sElapsedTime);
     }
+
+    private void setScore() {
+        String score = String.valueOf(countWinByMyself + countLostByMyOpponent) + "/" +
+                       String.valueOf(countWinByMyOpponent + countLostByMyself);
+        mScore.setText(score);
+    }
+
+    private void updateMyAggressiveMargin(int delta) {
+        myAggressiveMargin += delta;
+        mMyAggressiveMargin.setText(String.valueOf(myAggressiveMargin));
+    }
+
+    private void updateMyOpponentAggressiveMargin(int delta) {
+        myOpponentAggressiveMargin += delta;
+        mMyOpponentAggressiveMargin.setText(String.valueOf(myOpponentAggressiveMargin));
+    }
+
 
     @Override
     public void onUpdateAmbient() {
         super.onUpdateAmbient();
-        setNbPointsAndElapsedTime();
+        setElapsedTime();
     }
 
 
