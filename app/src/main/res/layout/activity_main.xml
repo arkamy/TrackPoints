@@ -21,113 +21,183 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/win_by_myself"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="#009688"
-                android:lineSpacingExtra="4sp"
-                android:lines="3"
-                android:text="@string/win_by_myself"
-                android:textStyle="bold" />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <Button
-                android:id="@+id/win_by_my_opponent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#9E837F7F"
-                android:lineSpacingExtra="4sp"
-                android:lines="3"
-                android:text="@string/win_by_my_opponent"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/win_by_myself"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#009688"
+                    android:lineSpacingExtra="4sp"
+                    android:lines="3"
+                    android:text="@string/win_by_myself" />
+
+                <TextView
+                    android:id="@+id/count_win_by_myself"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/win_by_myself"
+                    android:layout_alignEnd="@id/win_by_myself"
+                    android:layout_marginTop="22dp"
+                    android:elevation="10dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#BE000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold|italic" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="5dp"
+                android:layout_height="match_parent"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/win_by_my_opponent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#9E837F7F"
+                    android:lineSpacingExtra="4sp"
+                    android:lines="3"
+                    android:text="@string/win_by_my_opponent" />
+
+                <TextView
+                    android:id="@+id/count_win_by_my_opponent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/win_by_my_opponent"
+                    android:layout_alignEnd="@id/win_by_my_opponent"
+                    android:layout_marginTop="22dp"
+                    android:elevation="10dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold|italic" />
+
+            </RelativeLayout>
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/count_win_by_myself"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold|italic" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/aggressive_margin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="#FDFDFD"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="12sp"
-                android:textStyle="italic" />
+                <TextView
+                    android:id="@+id/aggressive_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
 
-            <TextView
-                android:id="@+id/count_win_by_my_opponent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold|italic" />
+                    android:textStyle="bold|italic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/lost_by_my_opponent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="#9E837F7F"
-                android:lineSpacingExtra="4sp"
-                android:lines="3"
-                android:text="@string/lost_by_my_opponent"
-                android:textStyle="bold" />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <Button
-                android:id="@+id/lost_by_myself"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#EC8844"
-                android:lineSpacingExtra="4sp"
-                android:lines="3"
-                android:text="@string/lost_by_myself"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/lost_by_my_opponent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#9E837F7F"
+                    android:lineSpacingExtra="4sp"
+                    android:lines="3"
+                    android:text="@string/lost_by_my_opponent" />
+
+                <TextView
+                    android:id="@+id/count_lost_by_my_opponent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/lost_by_my_opponent"
+                    android:layout_alignEnd="@id/lost_by_my_opponent"
+                    android:layout_marginTop="22dp"
+                    android:elevation="10dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold|italic" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="5dp"
+                android:layout_height="match_parent"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/lost_by_myself"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#EC8844"
+                    android:lineSpacingExtra="4sp"
+                    android:lines="3"
+                    android:text="@string/lost_by_myself" />
+
+                <TextView
+                    android:id="@+id/count_lost_by_myself"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/lost_by_myself"
+                    android:layout_alignEnd="@id/lost_by_myself"
+                    android:layout_marginTop="22dp"
+                    android:elevation="10dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold|italic" />
+
+            </RelativeLayout>
+
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="5dp">
-
-            <TextView
-                android:id="@+id/count_lost_by_my_opponent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold|italic" />
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/count_points"
@@ -139,17 +209,6 @@
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/count_lost_by_myself"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold|italic" />
 
         </TableRow>
 
@@ -181,7 +240,7 @@
                     android:text="100%"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -210,7 +269,7 @@
                     android:text="0%"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -237,7 +296,7 @@
                     android:text="0%"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
