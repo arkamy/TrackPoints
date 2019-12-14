@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.arkarell.aitennis.wearos.trackpoints"
+        applicationId "fr.aitennis.smartwatch.trackpoints"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1

@@ -10,12 +10,12 @@
     tools:deviceIds="wear">
 
     <TableLayout
+        android:id="@+id/screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        >
+        android:layout_marginEnd="10dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                     android:id="@+id/win_by_myself"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#009688"
+                    android:background="@drawable/win_by_myself"
                     android:lineSpacingExtra="4sp"
                     android:lines="3"
                     android:text="@string/win_by_myself" />
@@ -54,8 +54,8 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="5dp"
-                android:layout_height="match_parent"/>
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -66,7 +66,7 @@
                     android:id="@+id/win_by_my_opponent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#9E837F7F"
+                    android:background="@drawable/win_by_my_opponent"
                     android:lineSpacingExtra="4sp"
                     android:lines="3"
                     android:text="@string/win_by_my_opponent"
@@ -158,7 +158,7 @@
                     android:id="@+id/lost_by_myself"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#E99760"
+                    android:background="@drawable/lost_by_myself"
                     android:lineSpacingExtra="4sp"
                     android:lines="3"
                     android:text="@string/lost_by_myself" />
@@ -182,7 +182,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="5dp"
+                android:layout_width="10dp"
                 android:layout_height="match_parent" />
 
             <RelativeLayout
@@ -194,7 +194,7 @@
                     android:id="@+id/lost_by_my_opponent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#9E837F7F"
+                    android:background="@drawable/lost_by_my_opponent"
                     android:lineSpacingExtra="4sp"
                     android:lines="3"
                     android:text="@string/lost_by_my_opponent"
@@ -229,7 +229,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="200 min"
+                android:text="0 min"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
@@ -240,7 +240,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="200 pt"
+                android:text="0 pt"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
@@ -261,7 +261,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:id="@+id/percent_win_by_myself_layout"
@@ -306,7 +306,7 @@
                     android:layout_height="match_parent"
                     android:max="100"
                     android:progress="100"
-                    android:progressTint="#E99760" />
+                    android:progressTint="@color/orange" />
 
                 <TextView
                     android:id="@+id/percent_lost_by_myself_text"
@@ -324,8 +324,9 @@
                 android:id="@+id/percent_winlost_by_my_opponent_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="invisible">
+
                 <ProgressBar
                     android:id="@+id/percent_winlost_by_my_opponent_bar"
                     style="@android:style/Widget.ProgressBar.Horizontal"

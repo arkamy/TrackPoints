@@ -1,4 +1,4 @@
-package com.arkarell.aitennis.wearos.trackpoints;
+package fr.aitennis.smartwatch.trackpoints;
 
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -7,11 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.wearable.DataClient;
+import com.google.android.gms.wearable.DataEventBuffer;
+
+import androidx.annotation.NonNull;
 
 import static java.lang.Math.round;
 
-public class MainActivity extends WearableActivity {
+public class MainActivity extends WearableActivity implements DataClient.OnDataChangedListener {
+
+    private TableLayout mScreenLayout;
 
     private Button mWinByMyself;
     private Button mWinByMyOpponent;
@@ -38,15 +46,8 @@ public class MainActivity extends WearableActivity {
     private TextView mPercentWinLostByMyOpponentText;
     private TextView mPercentLostByMyselfText;
 
-    private int countWinByMyself;
-    private int countWinByMyOpponent;
-    private int countLostByMyOpponent;
-    private int countLostByMyself;
-    private int myAggressiveMargin;
-    private int myOpponentAggressiveMargin;
-    private int countPoints;
+    private Session cs;
 
-    private long startTimeStamp;
     private Vibrator vibrator;
 
     @Override
@@ -59,14 +60,11 @@ public class MainActivity extends WearableActivity {
         // #EC8844 : Orange vif
 
         // Init counts
-        countWinByMyself = 0;
-        countWinByMyOpponent = 0;
-        countLostByMyOpponent = 0;
-        countLostByMyself = 0;
-        myAggressiveMargin = 0;
-        countPoints = 0;
+        cs = new Session();
 
         // Load UI elements
+        mScreenLayout = (TableLayout) findViewById(R.id.screen);
+
         mWinByMyself = (Button) findViewById(R.id.win_by_myself);
         mWinByMyOpponent = (Button) findViewById(R.id.win_by_my_opponent);
         mLostByMyOpponent = (Button) findViewById(R.id.lost_by_my_opponent);
@@ -93,41 +91,38 @@ public class MainActivity extends WearableActivity {
         mPercentWinLostByMyOpponentText = (TextView) findViewById(R.id.percent_winlost_by_my_opponent_text);
         mPercentLostByMyselfText = (TextView) findViewById(R.id.percent_lost_by_myself_text);
 
-        // Init start timestamp
-        startTimeStamp = System.currentTimeMillis();
-
         // Init vibrator
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         // Add listeners
         mWinByMyself.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                countWinByMyself += 1;
-                mCountWinByMyself.setText(String.valueOf(countWinByMyself));
+                cs.countWinByMyself += 1;
+                mCountWinByMyself.setText(String.valueOf(cs.countWinByMyself));
                 updateMyAggressiveMargin(1);
                 addOnePoint();
             }
         });
         mWinByMyOpponent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                countWinByMyOpponent += 1;
-                mCountWinByMyOpponent.setText(String.valueOf(countWinByMyOpponent));
+                cs.countWinByMyOpponent += 1;
+                mCountWinByMyOpponent.setText(String.valueOf(cs.countWinByMyOpponent));
                 updateMyOpponentAggressiveMargin(1);
                 addOnePoint();
             }
         });
         mLostByMyOpponent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                countLostByMyOpponent += 1;
-                mCountLostByMyOpponent.setText(String.valueOf(countLostByMyOpponent));
+                cs.countLostByMyOpponent += 1;
+                mCountLostByMyOpponent.setText(String.valueOf(cs.countLostByMyOpponent));
                 updateMyOpponentAggressiveMargin(-1);
                 addOnePoint();
             }
         });
         mLostByMyself.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                countLostByMyself += 1;
-                mCountLostByMyself.setText(String.valueOf(countLostByMyself));
+                cs.countLostByMyself += 1;
+                mCountLostByMyself.setText(String.valueOf(cs.countLostByMyself));
                 updateMyAggressiveMargin(-1);
                 addOnePoint();
             }
@@ -178,11 +173,10 @@ public class MainActivity extends WearableActivity {
 
         // Enables Always-on
         setAmbientEnabled ();
-        setAutoResumeEnabled(true);
     }
 
     private void addOnePoint() {
-        countPoints += 1;
+        cs.countPoints += 1;
 
         vibrator.vibrate(50);
 
@@ -192,9 +186,9 @@ public class MainActivity extends WearableActivity {
         setScore();
 
         // set percent bar
-        float fwinByMyselfPercent = (countWinByMyself * 100) / countPoints;
-        float fwinlostByMyOpponentPercent = ((countWinByMyOpponent + countLostByMyOpponent) *100 ) / countPoints;
-        float flostByMyselfPercent = (countLostByMyself *100 ) / countPoints;
+        float fwinByMyselfPercent = (cs.countWinByMyself * 100) / cs.countPoints;
+        float fwinlostByMyOpponentPercent = ((cs.countWinByMyOpponent + cs.countLostByMyOpponent) *100 ) / cs.countPoints;
+        float flostByMyselfPercent = (cs.countLostByMyself *100 ) / cs.countPoints;
 
         int winByMyselfPercent = round(fwinByMyselfPercent);
         int winlostByMyOpponentPercent = round(fwinlostByMyOpponentPercent);
@@ -226,8 +220,8 @@ public class MainActivity extends WearableActivity {
     }
 
     private void setCountPoints() {
-        String sCountPoints = String.valueOf(countPoints);
-        if (countPoints == 1)
+        String sCountPoints = String.valueOf(cs.countPoints);
+        if (cs.countPoints == 1)
             sCountPoints += " pt";
         else
             sCountPoints += " pts";
@@ -235,25 +229,25 @@ public class MainActivity extends WearableActivity {
     }
 
     private void setElapsedTime() {
-        int elapsedTime = round((System.currentTimeMillis() - startTimeStamp) / 60000);
+        int elapsedTime = round((System.currentTimeMillis() - cs.startTimeStamp) / 60000);
         String sElapsedTime = String.valueOf(elapsedTime) + " min.";
         mElapsedTime.setText(sElapsedTime);
     }
 
     private void setScore() {
-        String score = String.valueOf(countWinByMyself + countLostByMyOpponent) + "/" +
-                       String.valueOf(countWinByMyOpponent + countLostByMyself);
+        String score = String.valueOf(cs.countWinByMyself + cs.countLostByMyOpponent) + "/" +
+                       String.valueOf(cs.countWinByMyOpponent + cs.countLostByMyself);
         mScore.setText(score);
     }
 
     private void updateMyAggressiveMargin(int delta) {
-        myAggressiveMargin += delta;
-        mMyAggressiveMargin.setText(String.valueOf(myAggressiveMargin));
+        cs.myAggressiveMargin += delta;
+        mMyAggressiveMargin.setText(String.valueOf(cs.myAggressiveMargin));
     }
 
     private void updateMyOpponentAggressiveMargin(int delta) {
-        myOpponentAggressiveMargin += delta;
-        mMyOpponentAggressiveMargin.setText(String.valueOf(myOpponentAggressiveMargin));
+        cs.myOpponentAggressiveMargin += delta;
+        mMyOpponentAggressiveMargin.setText(String.valueOf(cs.myOpponentAggressiveMargin));
     }
 
 
@@ -263,5 +257,28 @@ public class MainActivity extends WearableActivity {
         setElapsedTime();
     }
 
+    @Override
+    public void onEnterAmbient(Bundle ambientDetails) {
+        super.onEnterAmbient(ambientDetails);
+        mScreenLayout.setVisibility(View.INVISIBLE);
+        mWinByMyself.setEnabled(false);
+        mWinByMyOpponent.setEnabled(false);
+        mLostByMyself.setEnabled(false);
+        mLostByMyOpponent.setEnabled(false);
+    }
 
+    @Override
+    public void onExitAmbient() {
+        mScreenLayout.setVisibility(View.VISIBLE);
+        super.onExitAmbient();
+        mWinByMyself.setEnabled(true);
+        mWinByMyOpponent.setEnabled(true);
+        mLostByMyself.setEnabled(true);
+        mLostByMyOpponent.setEnabled(true);
+    }
+
+    @Override
+    public void onDataChanged(@NonNull DataEventBuffer dataEventBuffer) {
+
+    }
 }
